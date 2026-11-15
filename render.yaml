@@ -1,7 +1,17 @@
 services:
   - type: web
-    runtime: static
+    runtime: node
     name: gift-lottery
     plan: free
-    buildCommand: ''
-    staticPublishPath: .
+    buildCommand: npm install --omit=dev
+    startCommand: node server.js
+    disk:
+      name: lottery-data
+      mountPath: /var/data
+      sizeGB: 1
+    envVars:
+      - key: DB_PATH
+        value: /var/data/lottery.sqlite
+      - key: ADMIN_PASSWORD
+        sync: false
+
